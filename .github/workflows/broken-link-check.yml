@@ -23,6 +23,7 @@ jobs:
           --no-progress
           --timeout 20
           --exclude-mail
+          --output ./lychee/out.md
           ./
 
     - name: 📊 Upload results as artifact
