@@ -1,0 +1,32 @@
+name: 🔗 Check for Broken Links
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: ⚡ Run Lychee link checker
+      uses: lycheeverse/lychee-action@v1.8.0
+      with:
+        args: >
+          --verbose
+          --no-progress
+          --timeout 20
+          --exclude-mail
+          ./
+
+    - name: 📊 Upload results as artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: broken-link-report
+        path: ./lychee/out.md
